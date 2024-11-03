@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Slime E-Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function validateSignUpForm(event) {
+            event.preventDefault();
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+
+            if (name && email && password) {
+                window.location.href = "index.html"; // Redirect to main page
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Sign Up</h2>
+        </div>
+        <form onsubmit="validateSignUpForm(event)" class="signup-form">
+            <label for="signup-name">Full Name:</label>
+            <input type="text" id="signup-name" name="name" required>
+            <label for="signup-email">Email:</label>
+            <input type="email" id="signup-email" name="email" required>
+            <label for="signup-password">Password:</label>
+            <input type="password" id="signup-password" name="password" required>
+            <button type="submit" class="btn-signup">Sign Up</button>
+        </form>
+        <p class="form-footer">
+            Already have an account? <a href="login.html">Login</a>
+        </p>
+    </div>
+</body>
+</html>
