@@ -16,7 +16,6 @@
                     <li><a href="shop.html">Shop</a></li>
                     <li><a href="cart.html">Cart</a></li>
                     <li><a href="orderlist.html">Order List</a></li>
-                    <li><a href="orders.html">Orders</a></li>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact</a></li>
                     <li><a href="statistics.html">Statistics</a></li>
@@ -27,18 +26,34 @@
         </header>
 
         <main class="content-wrapper">
-            <h1>Your Orders</h1>
+            <h1>All orders</h1>
             <div class="order-list">
                 <div class="order-item">
                     <h3>Order #12345</h3>
                     <p>Date: 2024-03-15</p>
                     <p>Total: $15.98</p>
+                    <p>Status: <span class="status completed">Completed</span></p> <!-- Order Status -->
                     <button class="btn-view">View Details</button>
                 </div>
                 <div class="order-item">
                     <h3>Order #12346</h3>
                     <p>Date: 2024-03-20</p>
                     <p>Total: $29.99</p>
+                    <p>Status: <span class="status in-transit">In Transit</span></p> <!-- Order Status -->
+                    <button class="btn-view">View Details</button>
+                </div>
+                <div class="order-item">
+                    <h3>Order #12347</h3>
+                    <p>Date: 2024-03-25</p>
+                    <p>Total: $9.50</p>
+                    <p>Status: <span class="status pending">Pending</span></p> <!-- Order Status -->
+                    <button class="btn-view">View Details</button>
+                </div>
+                <div class="order-item">
+                    <h3>Order #12348</h3>
+                    <p>Date: 2024-03-28</p>
+                    <p>Total: $12.99</p>
+                    <p>Status: <span class="status cancelled">Cancelled</span></p> <!-- Order Status -->
                     <button class="btn-view">View Details</button>
                 </div>
                 <!-- Add more orders as needed -->
