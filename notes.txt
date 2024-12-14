@@ -1,0 +1,28 @@
+#run DBVS via docker compose under unix family OS
+    export DB_UG="$(id -u):$(id -g)"; docker-compose -f docker-compose.run-dbms.unix.yml up
+
+#run DBVS via docker compose under windows family OS
+    docker-compose -f docker-compose.run-dbms.win.yml up
+
+
+#database files are stored in
+    ./db/data/mariadb
+
+#if everything starts correctly, phpMyAdmin should be accessible on 
+    http://localhost:8080/
+
+
+#endpoint documentation is at
+    http://127.0.0.1:5000/swagger/index.html
+
+
+#JWT integration with ASP.NET Core 6
+    https://www.c-sharpcorner.com/article/jwt-authentication-and-authorization-in-net-6-0-with-identity-framework/
+    https://www.daniaal.com/configuring-swagger-in-net-6/
+
+#UI toolkit used in example frontend is PrimeReact from PrimeFaces
+	https://www.primefaces.org/primereact/
+
+
+#docker compose in VS Code
+    https://code.visualstudio.com/docs/containers/docker-compose
