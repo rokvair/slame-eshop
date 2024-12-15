@@ -242,3 +242,59 @@ footer {
 .nav-links li {
     margin-left: 20px;
 }
+/* Styles for the items container */
+.items-container {
+    display: flex;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates a responsive grid */
+    gap: 20px; /* Adds space between items */
+    padding: 20px;
+    justify-items: center; /* Centers the items horizontally */
+}
+
+/* Style for individual items */
+.item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: transform 0.2s ease-in-out;
+}
+
+.item:hover {
+    transform: translateY(-5px); /* Slight hover effect */
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Style for the item name and price */
+.item strong {
+    display: block;
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.item p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.item a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    background-color: #fb8c00;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.item a:hover {
+    background-color: #e77d00;
+}
