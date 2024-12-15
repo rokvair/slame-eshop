@@ -1,4 +1,5 @@
 <?php
+include 'header.php';
 // Function to display messages with filtering
 function displayMessages($filter_sender, $filter_recipient) {
     $servername = "localhost";

@@ -43,7 +43,7 @@ $comments = $stmt->get_result();
 if ($comments->num_rows > 0) {
     while ($comment = $comments->fetch_assoc()) {
         echo "<div class='comment'>";
-        echo "<p><strong>Naudotojas: {$comment['Slapyvardis']}</strong></p>";
+        echo "<p>Naudotojas: {$comment['Slapyvardis']}</p>";
         echo "<p>Rating: {$comment['Ivertinimas']} / 5</p>";
         echo "<p>{$comment['Atsiliepimas']}</p>";
         echo "<hr>";
