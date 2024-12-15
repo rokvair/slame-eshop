@@ -2,7 +2,7 @@
 // Function to display messages with filtering
 function displayMessages($filter_sender, $filter_recipient) {
     $servername = "localhost";
-    $username = ""; // replace with your username
+    $username = "root"; // replace with your username
     $password = "";     // replace with your password
     $dbname = "slame"; // replace with your database name
 
