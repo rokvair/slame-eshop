@@ -68,9 +68,9 @@ if (isset($_GET['remove'])) {
 }
 
 // Display the cart items
-echo "<h1>Your Shopping Cart</h1>";
+echo "<h1>Jūsų krepšelis</h1>";
 echo "<table border='1'>
-      <tr><th>Item</th><th>Price</th><th>Discount</th><th>Discounted Price</th><th>Quantity</th><th>Total</th><th>Action</th></tr>";
+      <tr><th>Prekė</th><th>Kaina</th><th>Nuolaida</th><th>Kaina po nuolaidos</th><th>Kiekis</th><th>Iš viso</th><th>Veiksmas</th></tr>";
 
 $grand_total = 0;
 
@@ -105,7 +105,7 @@ if ($items_result->num_rows > 0) {
     echo "</table>";
     echo "<p><a href='checkout.php'>Proceed to Checkout</a></p>";
 } else {
-    echo "<p>Your cart is empty!</p>";
+    echo "<p>Jūsų krepšelis yra tuščias</p>";
 }
 
 $conn->close();
