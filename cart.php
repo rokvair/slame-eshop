@@ -118,7 +118,7 @@ if ($items_result->num_rows > 0) {
                 <td><a href='cart.php?remove={$item['product_id']}' onclick='return confirm(\"Ar tikrai norite pašalinti šią prekę iš krepšelio?\")'>Pašalinti</a></td>
               </tr>";
     }
-    echo "<tr><td colspan='5' style='text-align:right;'>Grand Total:</td><td>{$grand_total} €</td></tr>";
+    echo "<tr><td colspan='5' style='text-align:right;'>Mokėti:</td><td>{$grand_total} €</td></tr>";
     echo "</table>";
     echo "<p><a href='checkout.php'>Eiti į apmokėjimą</a></p>";
 } else {

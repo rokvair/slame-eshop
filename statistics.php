@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <main class="content-wrapper">
 
             <section class="statistics">
-			<?php if ($role === 'Vadybininkas'): ?>
+			<?php if ($role === 'Administratorius'): ?>
 				<br>
 				<h1>Statistika</h1>
 				<br>
