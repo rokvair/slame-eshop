@@ -17,12 +17,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = hash('sha256', $password);
 
     // Query to check username and hashed password
-    $sql = "SELECT * FROM naudotojas WHERE Slapyvardis = '$username' AND Slaptazodis = '$hashed_password'";
-    $result = $conn->query($sql);
+    $sql = "SELECT id, Slapyvardis FROM naudotojas WHERE Slapyvardis = ? AND Slaptazodis = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $hashed_password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result && $result->num_rows == 1) {
-        // If valid, set session and redirect
-        $_SESSION['username'] = $username;
+        // Fetch user data
+        $user = $result->fetch_assoc();
+
+        // Set user ID and username in session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['Slapyvardis'];
+
+        // Redirect to the homepage or another appropriate page
         header("Location: index.php");
         exit();
     } else {
