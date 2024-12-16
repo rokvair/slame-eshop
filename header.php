@@ -19,21 +19,18 @@ $user_id = isset($_SESSION['user_id']) ? htmlspecialchars($_SESSION['user_id']) 
  
                 <li><a href="index.php">Namai</a></li>
                 <li><a href="all_items.php">Prekės</a></li>
-
-                
-                <li><a href="cart.php">Krepšelis</a></li>
-                <li><a href="admin_dashboard.php">Administratoriaus</a></li>
-                <li><a href="my_profile.php">Mano profilis</a></li>
-                <li><a href="logout.php" class="btn btn-danger">Atsijungti</a></li>
-                
-                <li><a href="items_controller.php">Prekių valdymas</a></li>
-                <li><a href="login.php" class="btn-login">Prisijungti</a></li>
-                <li><a href="register.php" class="btn-signup">Registruotis</a></li>
+                <li><a href="statistics.php">Statistika</a></li>
                 <li><a href="cart.php">Krepšelis</a></li>
                 <li><a href="my_orders.php">Mano Užsakymai</a></li>
-                <li><a href="admin_orders.php">admin užsakymai</a></li>
-                <li><a href="login.html" class="btn-login">Login</a></li>
-                <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+
+                <li><a href="admin_dashboard.php">Naudotojų valdymas</a></li>
+                <li><a href="items_controller.php">Prekių valdymas</a></li>
+                <li><a href="admin_orders.php">Visi užsakymai</a></li>
+
+                <li><a href="my_profile.php">Mano profilis</a></li>
+                <li><a href="login.php" class="btn-login">Prisijungti</a></li>
+                <li><a href="register.php" class="btn-signup">Registruotis</a></li>
+                <li><a href="logout.php" class="btn btn-danger">Atsijungti</a></li>
                 </li>
             </ul>
         </nav>

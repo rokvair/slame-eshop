@@ -23,9 +23,6 @@ $items_count= $result->num_rows;
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <h1>Visos prekės</h1>
-    </header>
     <!-- Main Content -->
     <main>
         <div class="button-container">
