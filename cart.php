@@ -1,60 +1,112 @@
 <?php
 session_start();
-include 'header.php';
+include 'header.php';  // Including the header
+include 'config.php';  // Database connection
 
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
+// Assuming user_id is stored in session
+$user_id = $_SESSION['user_id'] ?? 1;  // Simulated user ID, replace with actual logic
+$conn = connectDB();
+
+// Check if there is already a cart for the user with status 'Laukiantis patvirtinimo'
+$sql = "SELECT id FROM uzsakymas WHERE fk_Naudotojas = ? AND Statusas = 'Laukiantis patvirtinimo' LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// If a cart exists, retrieve the cart ID
+if ($result->num_rows > 0) {
+    $cart = $result->fetch_assoc();
+    $order_id = $cart['id'];
+} else {
+    // Create a new cart if none exists
+    $status = 'Laukiantis patvirtinimo';
+    $insert_cart = "INSERT INTO uzsakymas (Data, Statusas, fk_Naudotojas) VALUES (NOW(), ?, ?)";
+    $stmt = $conn->prepare($insert_cart);
+    $stmt->bind_param("si", $status, $user_id);
+    $stmt->execute();
+    $order_id = $conn->insert_id;
 }
 
-// Add item to cart
-if (isset($_POST['add_to_cart'])) {
+// Handle adding items to the cart
+if (isset($_POST['add_to_cart']) && isset($_POST['item_id'])) {
     $item_id = $_POST['item_id'];
-    $item_name = $_POST['Pavadinimas'];
-    $item_price = $_POST['Kaina'];
 
-    if (!isset($_SESSION['cart'][$item_id])) {
-        $_SESSION['cart'][$item_id] = ['name' => $item_name, 'price' => $item_price, 'quantity' => 1];
+    // Check if the item is already in the cart
+    $sql_check = "SELECT * FROM uzsakymo_preke WHERE fk_Uzsakymas = ? AND fk_Preke = ?";
+    $stmt = $conn->prepare($sql_check);
+    $stmt->bind_param("ii", $order_id, $item_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Update the quantity if the item exists
+        $stmt_update = "UPDATE uzsakymo_preke SET Kiekis = Kiekis + 1 WHERE fk_Uzsakymas = ? AND fk_Preke = ?";
+        $stmt = $conn->prepare($stmt_update);
+        $stmt->bind_param("ii", $order_id, $item_id);
+        $stmt->execute();
     } else {
-        $_SESSION['cart'][$item_id]['quantity'] += 1;
+        // Add the item to the cart if it doesn't exist
+        $stmt_insert = "INSERT INTO uzsakymo_preke (Kiekis, fk_Uzsakymas, fk_Preke) VALUES (1, ?, ?)";
+        $stmt = $conn->prepare($stmt_insert);
+        $stmt->bind_param("ii", $order_id, $item_id);
+        $stmt->execute();
     }
-}
 
-// Handle "Buy Now"
-if (isset($_POST['buy_now'])) {
-    $_SESSION['cart'] = [
-        $_POST['item_id'] => ['name' => $_POST['Pavadinimas'], 'price' => $_POST['Kaina'], 'quantity' => 1]
-    ];
-    header("Location: checkout.php");
+    // Redirect to prevent re-submission on page reload
+    header("Location: cart.php");
     exit;
 }
 
-// Remove item
+// Handle removing items from the cart
 if (isset($_GET['remove'])) {
-    unset($_SESSION['cart'][$_GET['remove']]);
+    $remove_item_id = $_GET['remove'];
+    $delete_item = "DELETE FROM uzsakymo_preke WHERE fk_Uzsakymas = ? AND fk_Preke = ?";
+    $stmt = $conn->prepare($delete_item);
+    $stmt->bind_param("ii", $order_id, $remove_item_id);
+    $stmt->execute();
 }
 
-// Display cart
+// Display the cart items
 echo "<h1>Your Shopping Cart</h1>";
-if (!empty($_SESSION['cart'])) {
-    echo "<table border='1'>";
-    echo "<tr><th>Item</th><th>Price</th><th>Quantity</th><th>Total</th><th>Action</th></tr>";
+echo "<table border='1'>
+      <tr><th>Item</th><th>Price</th><th>Discount</th><th>Discounted Price</th><th>Quantity</th><th>Total</th><th>Action</th></tr>";
 
-    $grand_total = 0;
-    foreach ($_SESSION['cart'] as $id => $item) {
-        $total = $item['price'] * $item['quantity'];
+$grand_total = 0;
+
+// Fetch items from the cart
+$sql_items = "SELECT p.Pavadinimas, p.Kaina, p.Nuolaida, up.Kiekis, p.id AS product_id 
+              FROM uzsakymo_preke up
+              JOIN preke p ON up.fk_Preke = p.id
+              WHERE up.fk_Uzsakymas = ?";
+$stmt = $conn->prepare($sql_items);
+$stmt->bind_param("i", $order_id);
+$stmt->execute();
+$items_result = $stmt->get_result();
+
+if ($items_result->num_rows > 0) {
+    while ($item = $items_result->fetch_assoc()) {
+        // Apply discount to the item price
+        $discounted_price = $item['Kaina'] - ($item['Kaina'] * $item['Nuolaida'] / 100);
+        $total = $discounted_price * $item['Kiekis'];
         $grand_total += $total;
+
         echo "<tr>
-                <td>{$item['name']}</td>
-                <td>{$item['price']} €</td>
-                <td>{$item['quantity']}</td>
+                <td>{$item['Pavadinimas']}</td>
+                <td>{$item['Kaina']} €</td>
+                <td>{$item['Nuolaida']}%</td>
+                <td>{$discounted_price} €</td>
+                <td>{$item['Kiekis']}</td>
                 <td>{$total} €</td>
-                <td><a href='cart.php?remove={$id}'>Remove</a></td>
+                <td><a href='cart.php?remove={$item['product_id']}'>Remove</a></td>
               </tr>";
     }
+    echo "<tr><td colspan='5' style='text-align:right;'>Grand Total:</td><td>{$grand_total} €</td></tr>";
     echo "</table>";
-    echo "<h3>Grand Total: {$grand_total} €</h3>";
-    echo "<a href='checkout.php'>Proceed to Checkout</a>";
+    echo "<p><a href='checkout.php'>Proceed to Checkout</a></p>";
 } else {
     echo "<p>Your cart is empty!</p>";
 }
+
+$conn->close();
 ?>
