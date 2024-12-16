@@ -7,8 +7,6 @@ include 'header.php';
 
 $item_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
-
 // Fetch item details
 $sql = "SELECT * FROM Preke WHERE id = ?";
 $stmt = $conn->prepare($sql);
@@ -45,6 +43,7 @@ if ($result->num_rows > 0) {
     echo "<p><b>Kiekis sandėlyje: </b>{$item['Kiekis_sandelyje']}</p>";
 
     $out_of_stock = $item['Kiekis_sandelyje'] <= 0;
+    $user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
 
     if ($out_of_stock) {
         echo "<p><strong>Prekių nėra sandėlyje</strong></p>";
