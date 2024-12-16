@@ -1,4 +1,6 @@
 <?php
+session_start();
+include 'config.php';
 include 'header.php';
 
 // Ensure only admins can access this page
@@ -7,10 +9,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$conn = connectDB();
 $id = $_SESSION['user_id'];
 
 // Check if the current user is an admin
-$sql = "SELECT `Role` FROM naudotojas WHERE id = '$id'";
+$sql = "SELECT Role FROM naudotojas WHERE id = '$id'";
 $result = $conn->query($sql);
 if ($result && $row = $result->fetch_assoc()) {
     if ($row['Role'] !== 'Administratorius') {

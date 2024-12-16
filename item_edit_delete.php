@@ -1,8 +1,8 @@
 <?php
 include 'config.php';
+$conn = connectDB();
 include 'header.php';
 
-$conn = connectDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = isset($_POST['item_id']) ? intval($_POST['item_id']) : 0;

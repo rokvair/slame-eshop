@@ -1,13 +1,13 @@
 <?php
+session_start();
 include 'config.php';
 include 'functions.php';
+$conn = connectDB();
 include 'header.php';
-session_start();
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn = connectDB();
 
     // Retrieve input from form
     $username = $conn->real_escape_string($_POST['username']);

@@ -1,7 +1,8 @@
 <?php
 session_start();
-include 'header.php';  // Including the header
 include 'config.php';  // Database connection
+$conn = connectDB();
+include 'header.php';  // Including the header
 
 // Check if order_id is provided in the query string
 if (!isset($_GET['order_id']) || !is_numeric($_GET['order_id'])) {
@@ -10,7 +11,6 @@ if (!isset($_GET['order_id']) || !is_numeric($_GET['order_id'])) {
 }
 
 $order_id = intval($_GET['order_id']);
-$conn = connectDB();
 
 // Verify that the order belongs to the logged-in user
 $user_id = $_SESSION['user_id'] ?? 1;  // Replace with actual user authentication
