@@ -26,6 +26,26 @@ if ($result_email->num_rows > 0) {
     exit;
 }
 
+// Fetch the address for the logged-in user
+$sql_address = "SELECT Miestas, Gatve, Namo_nr, Buto_nr, Pasto_kodas FROM Adresas WHERE fk_Naudotojas = ?";
+$stmt_address = $conn->prepare($sql_address);
+$stmt_address->bind_param("i", $user_id);
+$stmt_address->execute();
+$result_address = $stmt_address->get_result();
+$user_address = "";
+
+if ($result_address->num_rows > 0) {
+    $row_address = $result_address->fetch_assoc();
+    $user_address = $row_address['Gatve'] . " " . $row_address['Namo_nr'];
+    if (!empty($row_address['Buto_nr'])) {
+        $user_address .= "/" . $row_address['Buto_nr'];
+    }
+    $user_address .= ", " . $row_address['Miestas'] . ", " . $row_address['Pasto_kodas'];
+} else {
+    echo "Address not found!";
+    exit;
+}
+
 // Check for the active cart in 'uzsakymas' table
 $sql = "SELECT * FROM uzsakymas WHERE fk_Naudotojas = ? AND Statusas = 'Laukiantis patvirtinimo'";
 $stmt = $conn->prepare($sql);
@@ -98,13 +118,14 @@ try {
     $pdf->Cell(0, 10, "Pirkimo SF", 0, 1, 'C');
     $pdf->Cell(0, 10, "Pirkimo nr.: $order_id", 0, 1);
     $pdf->Cell(0, 10, "Data: " . date("Y-m-d H:i:s"), 0, 1);
-    $pdf->Cell(0, 10, "klientas: $user_email", 0, 1); // Display user email
+    $pdf->Cell(0, 10, "Klientas: $user_email", 0, 1); // Display user email
+    $pdf->Cell(0, 10, "Adresas: $user_address", 0, 1); // Display user address
 
     $pdf->Ln(5);
     $pdf->Cell(40, 10, 'Pavadinimas', 1);
     $pdf->Cell(40, 10, 'Kiekis', 1);
     $pdf->Cell(40, 10, 'Kaina', 1);
-    $pdf->Cell(40, 10, 'bendrai', 1);
+    $pdf->Cell(40, 10, 'Bendrai', 1);
     $pdf->Ln();
 
     $total_amount = 0;
