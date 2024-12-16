@@ -1,9 +1,10 @@
 <?php
 include 'config.php';
+$conn = connectDB();
+session_start(); // Start the session
 include 'functions.php';
 include 'header.php';
 
-$conn = connectDB();
 $item_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 $user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
@@ -98,7 +99,7 @@ if ($comments->num_rows > 0) {
     echo "<p>Komentarų dar nėra. Būk pirmasis jį palikęs!</p>";
 }
 
-session_start(); // Start the session
+
 
 // Check if the user is logged in
 $user_id = $_SESSION['user_id']; // Assuming `user_id` is set during login

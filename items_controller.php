@@ -1,9 +1,10 @@
 <?php
 // Include necessary files and initialize database connection
 include 'config.php';
+session_start(); // Start the session
+$conn = connectDB();
 include 'header.php';
 
-$conn = connectDB();
 
 // Fetch all items from the database
 $sql = "SELECT * FROM Preke";
