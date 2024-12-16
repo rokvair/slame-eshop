@@ -33,14 +33,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($check_result && $check_result->num_rows > 0) {
             $message = "Username or Email already exists!";
         } else {
-            // Insert user with default Role 'Pirkejas'
+            // Insert the user into naudotojas table
             $sql = "INSERT INTO naudotojas (Vardas, Pavarde, Tel_nr, El_pastas, Slaptazodis, Registracijos_data, Gimimo_data, Slapyvardis, `Role`)
-                    VALUES ('$vardas', '$pavarde', '$tel_nr', '$el_pastas', '$hashed_password', '$registracijos_data', '$gimimo_data', '$slapyvardis', 'Naudotojas')";
+                    VALUES ('$vardas', '$pavarde', '$tel_nr', '$el_pastas', '$hashed_password', '$registracijos_data', '$gimimo_data', '$slapyvardis', 'Pirkejas')";
 
             if ($conn->query($sql) === TRUE) {
-                $message = "Registration successful! You can now log in.";
-                header("Location: login.php");
-                exit();
+                // Get the ID of the newly inserted user
+                $user_id = $conn->insert_id;
+
+                // Insert into the user status table with default status 'Aktyvus'
+                $status_sql = "INSERT INTO pirkejas (id, Paskyros_busena) VALUES ('$user_id', 'Aktyvus')";
+
+                if ($conn->query($status_sql) === TRUE) {
+                    $message = "Registration successful! You can now log in.";
+                    header("Location: login.php");
+                    exit();
+                } else {
+                    $message = "Error updating user status: " . $conn->error;
+                }
             } else {
                 $message = "Error: " . $sql . "<br>" . $conn->error;
             }
@@ -55,14 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registracija</title>
+    <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container form-container">
         <div class="form-header">
-            <h1>Registracija</h1>
+            <h1>Register</h1>
         </div>
         <form method="POST" action="">
             <div class="mb-3">
@@ -74,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="pavarde" name="pavarde" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="tel_nr" class="form-label">Telefono numeris</label>
+                <label for="tel_nr" class="form-label">Tel. numeris</label>
                 <input type="text" id="tel_nr" name="tel_nr" class="form-control" required>
             </div>
             <div class="mb-3">
@@ -97,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="confirm_password" class="form-label">Pakartokite slaptažodį</label>
                 <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
             </div>
-            <button type="submit" color="green">Registruotis</button>
+            <button type="submit" class="btn btn-primary w-100">Registruotis</button>
             <?php if ($message): ?>
                 <p class="text-danger mt-3"><?php echo htmlspecialchars($message); ?></p>
             <?php endif; ?>
