@@ -23,9 +23,17 @@ if ($result->num_rows > 0) {
     echo "<p>Tekstūra: {$item['Tekstura']}</p>";
     echo "<p>Kvapas: {$item['Kvapas']}</p>";
     echo "<p>Kiekis sandėlyje: {$item['Kiekis_sandelyje']}</p>";
+    // Add to Cart and Buy Now buttons
+echo "<form method='POST' action='cart.php'>";
+echo "<input type='hidden' name='item_id' value='{$item['id']}'>";
+echo "<input type='hidden' name='Pavadinimas' value='{$item['Pavadinimas']}'>";
+echo "<input type='hidden' name='Kaina' value='{$item['Kaina']}'>";
+echo "<button type='submit' name='add_to_cart'>Add to Cart</button>";
+echo "<button type='submit' name='buy_now'>Buy Now</button>";
+echo "</form>";
 } else {
-    echo "Tokios prekės nėra.";
-    exit;
+echo "Tokios prekės nėra.";
+exit;
 }
 
 // Display all comments for the item
@@ -40,6 +48,8 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $item_id);
 $stmt->execute();
 $comments = $stmt->get_result();
+
+
 
 if ($comments->num_rows > 0) {
     while ($comment = $comments->fetch_assoc()) {
