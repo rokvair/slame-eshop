@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <body>
-    <header>
-        <h1>Elektroninė slime parduotuvė</h1>
-    </header>
+
 </body>
 </html>
 <?php

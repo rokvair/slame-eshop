@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
+    <header class="navbar1">
         <nav>
             <div class="logo">Slime E-Shop</div>
             <ul class="nav-links">
