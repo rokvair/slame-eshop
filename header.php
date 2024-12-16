@@ -17,6 +17,8 @@
                 <li><a href="login.php" class="btn-login">Prisijungti</a></li>
                 <li><a href="register.php" class="btn-signup">Registruotis</a></li>
                 <li><a href="cart.php">Krepšelis</a></li>
+                <li><a href="my_orders.php">Mano Užsakymai</a></li>
+                <li><a href="admin_orders.php">admin užsakymai</a></li>
                 <li><a href="login.html" class="btn-login">Login</a></li>
                 <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
                 </li>

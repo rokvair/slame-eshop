@@ -76,21 +76,19 @@ try {
     // Generate PDF receipt
     $pdf = new FPDF();
     $pdf->AddPage();
-    //$pdf->AddFont('DejaVu', '', 'C:/xampp/htdocs/GIT3/slame-eshop/fpdf/fonts/DejaVuSans.php', true);
-    //$pdf->SetFont('DejaVu', '', 12);
     $pdf->SetFont('Arial', '', 12);
     $pdf->SetTextColor(0, 0, 0);
 
-    $pdf->Cell(0, 10, "Užsakymo sąskaita", 0, 1, 'C');
-    $pdf->Cell(0, 10, "Užsakymo nr.: $order_id", 0, 1);
+    $pdf->Cell(0, 10, "Pirkimo SF", 0, 1, 'C');
+    $pdf->Cell(0, 10, "Pirkimo nr.: $order_id", 0, 1);
     $pdf->Cell(0, 10, "Data: " . date("Y-m-d H:i:s"), 0, 1);
-    $pdf->Cell(0, 10, "El. paštas: $user_email", 0, 1); // Display user email
+    $pdf->Cell(0, 10, "klientas: $user_email", 0, 1); // Display user email
 
     $pdf->Ln(5);
-    $pdf->Cell(40, 10, 'Prekės Pavadinimas', 1);
+    $pdf->Cell(40, 10, 'Pavadinimas', 1);
     $pdf->Cell(40, 10, 'Kiekis', 1);
     $pdf->Cell(40, 10, 'Kaina', 1);
-    $pdf->Cell(40, 10, 'iš viso', 1);
+    $pdf->Cell(40, 10, 'bendrai', 1);
     $pdf->Ln();
 
     $total_amount = 0;
@@ -112,7 +110,7 @@ try {
     }
 
     $pdf->Ln(5);
-    $pdf->Cell(120, 10, 'Galutinė kaina:', 1);
+    $pdf->Cell(120, 10, 'Bendra suma:', 1);
     $pdf->Cell(40, 10, $total_amount . ' eur', 1);
 
     $pdf->Output('F', 'receipts/order_' . $order_id . '.pdf');
