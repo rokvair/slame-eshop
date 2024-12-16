@@ -109,8 +109,8 @@ if ($user_id !== 0) {
         // Allow the user to leave a comment
         echo "<h3>Palikite atsiliepimą</h3>";
         echo "<form method='POST' action='submit_comment.php'>";
-        echo "<textarea name='comment_name' placeholder='Atsiliepimo pavadinimas' required></textarea><br>";
-        echo "<textarea name='comment_text' placeholder='Jūsų atsiliepimas' required></textarea><br>";
+        echo "<textarea name='comment_name' placeholder='Atsiliepimo pavadinimas' required style='height: 83px;width: 100%;'></textarea><br>";
+        echo "<textarea name='comment_text' placeholder='Jūsų atsiliepimas' required style='height: 83px;width: 100%;'></textarea><br>";
         echo "<input type='number' name='rating' min='1' max='5' placeholder='Įvertinimas (1-5)' required><br>";
         echo "<input type='hidden' name='item_id' value='$item_id'>";
         echo "<button type='submit'>Pateikti atsiliepimą</button>";

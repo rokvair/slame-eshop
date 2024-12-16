@@ -64,6 +64,7 @@ if ($items_result->num_rows > 0) {
         $item_price = $item['Kaina'];
         $item_discount = $item['Nuolaida'];
         $discounted_price = $item['DiscountedPrice'];
+        $discounted_price = number_format($discounted_price, 2);
         $item_quantity = $item['Kiekis'];
         $item_total = $discounted_price * $item_quantity;
 
