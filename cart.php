@@ -4,9 +4,16 @@ include 'header.php';  // Including the header
 include 'config.php';  // Database connection
 
 // Assuming user_id is stored in session
-$user_id = $_SESSION['user_id'] ?? 1;  // Simulated user ID, replace with actual logic
+$user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
 $conn = connectDB();
 
+
+if($user_id == null)
+{
+    echo("OHnononoononono");
+    header("Location: login.php");
+    
+}
 // Check if there is already a cart for the user with status 'Laukiantis patvirtinimo'
 $sql = "SELECT id FROM uzsakymas WHERE fk_Naudotojas = ? AND Statusas = 'Laukiantis patvirtinimo' LIMIT 1";
 $stmt = $conn->prepare($sql);

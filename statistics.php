@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('config.php');
+include 'header.php';
 
 	$conn = connectDB();
 
@@ -219,24 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="page-container">
         <header>
-            <nav>
-                <div class="logo">Slaimas</div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Pagrindinis</a></li>
-                    <li><a href="shop.html">Katalogas</a></li>
-                    <li><a href="#">Apie mus</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="statistics.php">Statistics</a></li>
-                    <li><a href="orderlist.html">Order List</a></li> <!-- New Order List Link -->
-                    <li><a href="login.html" class="btn-login">Prisijungti</a></li>
-                    <li><a href="signup.html" class="btn-signup">Užsiregistruoti</a></li>
-                    <li><a href="profile.html" class="profile-icon">
-                        <img src="profile-icon.png" alt="Profile" class="icon">
-                    </a>
-                    </li>
-                </ul>
-            </nav>
+            <h1>Statistika</h1>
         </header>
 
         <main class="content-wrapper">
