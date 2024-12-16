@@ -1,49 +1,98 @@
 <?php
+// Include necessary files and initialize database connection
 include 'config.php';
 include 'header.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $price = $_POST['price'];
-    $discount = $_POST['discount'];
-    $volume = $_POST['volume'];
-    $description = $_POST['description'];
-    $color = $_POST['color'];
-    $texture = $_POST['texture'];
-    $scent = $_POST['scent'];
-    $in_stock = $_POST['stock'];
-    $country = $_POST['country'];
-    $image_url = $_POST['image_url'];
+$conn = connectDB();
 
-    $conn = connectDB();
+// Fetch all items from the database
+$sql = "SELECT * FROM Preke";
 
-    $sql = "INSERT INTO Preke (Pavadinimas, Kaina, Nuolaida, Turis, Aprasymas, Spalva, Tekstura, Kvapas, Kiekis_sandelyje, Pagaminimo_salis, Paveiksliuko_url) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('sdidssssiss', $name, $price, $discount, $volume, $description, $color, $texture, $scent, $in_stock, $country, $image_url);
+$result = $conn->query($sql);
+$items_count= $result->num_rows;
 
-    if ($stmt->execute()) {
-        echo "Item added successfully.";
-    } else {
-        echo "Error: " . $conn->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-}
+// Start HTML output
 ?>
 
-<form method="POST">
-    <input type="text" name="name" placeholder="Pavadinimas" required><br>
-    <input type="number" name="price" step="0.01" placeholder="Kaina" required><br>
-    <input type="number" name="discount" step="1" placeholder="Nuolaida %" required><br>
-    <input type="number" name="volume" step="0.1" placeholder="Tūris" required><br>
-    <textarea name="description" placeholder="Aprašymas"></textarea><br>
-    <input type="text" name="color" placeholder="Spalva"><br>
-    <input type="text" name="texture" placeholder="Tekstūra"><br>
-    <input type="text" name="scent" placeholder="Kvapas"><br>
-    <input type="number" name="stock" placeholder="Kiekis sandėlyje" required><br>
-    <input type="text" name="country" placeholder="Pagaminimo šalis"><br>
-    <input type="text" name="image_url" placeholder="Paveikslėlio URL"><br>
-    <button type="submit">Add Item</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visos prekės</title>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Visos prekės</h1>
+    </header>
+    <!-- Main Content -->
+    <main>
+        <div class="button-container">
+            <a href="add_item.php">
+                <button class="btn-add-item">Pridėti prekę</button>
+            </a>
+        </div>
+        <?php
+        echo "<p>Viso prekių: " . htmlspecialchars($items_count) . "</p>";
+        // Check for success or error message in URL
+        if (isset($_GET['status'])) {
+            if ($_GET['status'] == 'success') {
+                echo "<p style='color: green;'>Prekė sėkmingai atnaujinta: " . htmlspecialchars($_GET['item']) . ".</p>";
+            } elseif ($_GET['status'] == 'error') {
+                echo "<p style='color: red;'>Įvyko klaida atnaujinant prekę. Bandykite dar kartą.</p>";
+            }
+        }
+        ?>
+        <div class="items-container">
+            <?php
+            // Check if any items exist and display them
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $original_price = $row['Kaina'];
+                    $discount = $row['Nuolaida'];
+                    $discounted_price = 0;
+
+                    if ($discount != 0) {
+                        $discounted_price = $original_price * (1 - $discount / 100);
+                    }
+                    ?>
+                    <div class="item">
+                        <img src="<?= htmlspecialchars($row['Paveiksliuko_url']) ?>" 
+                             alt="<?= htmlspecialchars($row['Pavadinimas']) ?>" 
+                             style="width:200px; height:200px;"><br>
+                        <strong><?= htmlspecialchars($row['Pavadinimas']) ?></strong><br>
+                        <?php if ($discount != 0): ?>
+                            <p>
+                                Kaina: 
+                                <span style="text-decoration: line-through;"><?= number_format($original_price, 2) ?> €</span> 
+                                <span style="color:red;">-<?= number_format($discount, 0) ?>% <?= number_format($discounted_price, 2) ?> €</span>
+                            </p>
+                        <?php else: ?>
+                            <p>Kaina: <?= number_format($original_price, 2) ?> €</p>
+                        <?php endif; ?>
+                        <!-- Add Edit and Delete Buttons -->
+                        <div class="button-container">
+                        <form method="POST" action="item_edit_delete.php" style="display:inline;">
+                            <input type="hidden" name="item_id" value="<?= htmlspecialchars($row['id']) ?>">
+                            <button type="submit" name="edit_item" class="edit-button">Redaguoti</button>
+                        </form>
+                        <form method="POST" action="item_edit_delete.php" style="display:inline;">
+                            <input type="hidden" name="item_id" value="<?= htmlspecialchars($row['id']) ?>">
+                            <button type="submit" name="delete_item" class="delete-button" onclick="return confirm('Ar tikrai norite ištrinti šią prekę?');">Ištrinti</button>
+                        </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <?php
+                }
+            }
+            ?>
+        </div>
+    </main>
+</body>
+</html>
+<?php
+// Close database connection
+$conn->close();
+?>

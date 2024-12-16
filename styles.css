@@ -146,7 +146,7 @@ button {
     width: 100%;
     background-color: #4CAF50;
     color: white;
-    padding: 10px;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -377,4 +377,31 @@ footer {
 
 .comment p:nth-child(2) {
     color: #ff4500;
+}
+/* Style for the Edit button */
+.edit-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+
+/* Style for the Delete button */
+.delete-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: #e53935;
 }
