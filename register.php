@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Insert the user into naudotojas table
             $sql = "INSERT INTO naudotojas (Vardas, Pavarde, Tel_nr, El_pastas, Slaptazodis, Registracijos_data, Gimimo_data, Slapyvardis, `Role`)
-                    VALUES ('$vardas', '$pavarde', '$tel_nr', '$el_pastas', '$hashed_password', '$registracijos_data', '$gimimo_data', '$slapyvardis', 'Pirkejas')";
+                    VALUES ('$vardas', '$pavarde', '$tel_nr', '$el_pastas', '$hashed_password', '$registracijos_data', '$gimimo_data', '$slapyvardis', 'Naudotojas')";
 
             if ($conn->query($sql) === TRUE) {
                 // Get the ID of the newly inserted user
