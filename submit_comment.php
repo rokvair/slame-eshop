@@ -11,19 +11,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = intval($_POST['item_id']);
 
     if ($user_id === 0) {
-        redirect('login.php'); // Redirect to login if the user is not logged in
+        redirect('index.php'); // Redirect to login if the user is not logged in
     }
 
     $conn = connectDB();
-    $sql = "INSERT INTO Atsiliepimas (gavejo_id, prekes_id, Komentaras, Ivertinimas, data) VALUES (?, ?, ?, ?, NOW())";
+    $sql = "INSERT INTO Atsiliepimas (fk_Naudotojas, fk_Preke, Atsiliepimas, Ivertinimas, Data) 
+            VALUES (?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iisi", $user_id, $item_id, $comment_text, $rating);
 
     if ($stmt->execute()) {
-        echo "Comment submitted successfully.";
-        redirect("item_detail.php?id=$item_id");
+        echo "Atsiliepimas sėkmingai pateiktas.";
+        redirect("item_details.php?id=$item_id");
     } else {
-        echo "Error: " . $conn->error;
+        echo "Klaida: " . $conn->error;
     }
 
     $stmt->close();

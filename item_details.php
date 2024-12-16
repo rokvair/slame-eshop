@@ -15,6 +15,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $item = $result->fetch_assoc();
+    echo "<div class='item-details-container'>";
     echo "<h1>{$item['Pavadinimas']}</h1>";
     echo "<img src='{$item['Paveiksliuko_url']}' alt='{$item['Pavadinimas']}' style='width:300px; height:300px;'><br>";
     echo "<p>Kaina: {$item['Kaina']} €</p>";
@@ -23,12 +24,14 @@ if ($result->num_rows > 0) {
     echo "<p>Tekstūra: {$item['Tekstura']}</p>";
     echo "<p>Kvapas: {$item['Kvapas']}</p>";
     echo "<p>Kiekis sandėlyje: {$item['Kiekis_sandelyje']}</p>";
+    echo "</div>";
 } else {
     echo "Tokios prekės nėra.";
     exit;
 }
 
 // Display all comments for the item
+echo "<div class='comments-container'>";
 echo "<h3>Atsiliepimai</h3>";
 
 $sql = "SELECT a.Atsiliepimas, a.Ivertinimas, u.Slapyvardis 
@@ -51,11 +54,11 @@ if ($comments->num_rows > 0) {
         echo "</div>";
     }
 } else {
-    echo "<p>No comments yet. Be the first to leave a comment!</p>";
+    echo "<p>Komentarų dar nėra. Būk pirmasis jį palikęs!</p>";
 }
-/*
+
 // Check if the user has purchased the item
-session_start();
+/*session_start();
 $user_id = $_SESSION['user_id'] ?? 0; // Replace with actual user session logic
 
 $sql = "SELECT * 
@@ -65,10 +68,10 @@ $sql = "SELECT *
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $user_id, $item_id);
 $stmt->execute();
-$purchased = $stmt->get_result()->num_rows > 0;
+$purchased = $stmt->get_result()->num_rows > 0;*/
 
 // Display comment form if the user has purchased the item
-if ($purchased) {
+/*if ($purchased) {
     echo "<h3>Leave a Comment</h3>";
     echo "<form method='POST' action='submit_comment.php'>";
     echo "<textarea name='comment_text' placeholder='Your comment'></textarea><br>";
@@ -78,9 +81,21 @@ if ($purchased) {
     echo "</form>";
 } else {
     echo "<p>You need to purchase this item to leave a comment.</p>";
-}
+}*/
+//session_start();
+//$user_id = $_SESSION['user_id'] ?? 0;
+//if ($user_id !== 0) {
+    echo "<h3>Palikite atsiliepimą</h3>";
+    echo "<form method='POST' action='submit_comment.php'>";
+    echo "<textarea name='comment_text' placeholder='Jūsų atsiliepimas' required></textarea><br>";
+    echo "<input type='number' name='rating' min='1' max='5' placeholder='Įvertinimas (1-5)' required><br>";
+    echo "<input type='hidden' name='item_id' value='$item_id'>";
+    echo "<button type='submit'>Pateikti Atsiliepimą</button>";
+    echo "</form>";
+//} else {
+    //echo "<p>Norėdami palikti atsiliepimą, turite prisijungti.</p>";
+//}
 
-*/
-
+echo "</div>";
 $conn->close();
 ?>

@@ -8,6 +8,7 @@
 body {
     background-color: #f9f9f9;
     color: #333;
+    
 }
 
 header {
@@ -15,6 +16,15 @@ header {
     color: white;
     padding: 10px 0;
     text-align: center;
+}
+.navbar1 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;  /* Sticks the header to the top */
+    z-index: 1000;  /* Keeps the header above other content */
 }
 
 nav {
@@ -245,7 +255,7 @@ footer {
 /* Styles for the items container */
 .items-container {
     display: flex;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates a responsive grid */
+    flex-wrap: wrap;
     gap: 20px; /* Adds space between items */
     padding: 20px;
     justify-items: center; /* Centers the items horizontally */
@@ -297,4 +307,74 @@ footer {
 
 .item a:hover {
     background-color: #e77d00;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin: 10px; /* Space above buttons */
+}
+
+.button-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button-container button:hover {
+    background-color: #45a049;
+}
+
+.button-container button[type="button"] {
+    background-color: #f44336;
+}
+
+.button-container button[type="button"]:hover {
+    background-color: #e53935;
+}
+/* Container for item details */
+.item-details-container {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for comments */
+.comments-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Style for individual comment */
+.comment {
+    margin-bottom: 15px;
+}
+
+.comment p {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.comment hr {
+    border: 1px solid #ddd;
+}
+
+/* Optional: Style the comment user name and rating */
+.comment p:first-child {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.comment p:nth-child(2) {
+    color: #ff4500;
 }
