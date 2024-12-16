@@ -1,12 +1,12 @@
 <?php
-include 'config.php';
-include 'header.php';
 session_start();
+include 'config.php';
+$conn = connectDB();
+include 'header.php';
 
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn = connectDB();
 
     // Retrieve form inputs
     $vardas = $conn->real_escape_string($_POST['vardas']);
@@ -65,14 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Registruotis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container form-container">
         <div class="form-header">
-            <h1>Register</h1>
+            <h1>Registruotis</h1>
         </div>
         <form method="POST" action="">
             <div class="mb-3">

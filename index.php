@@ -4,6 +4,9 @@
 </body>
 </html>
 <?php
+include 'config.php';
+$conn = connectDB();
+session_start(); // Start the session
 include 'header.php';
 ?>
 

@@ -1,9 +1,9 @@
 <?php
 // Include necessary files and initialize database connection
 include 'config.php';
+$conn = connectDB();
 include 'header.php';
 
-$conn = connectDB();
 
 // Handle form submission and add item to the database
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

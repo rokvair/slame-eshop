@@ -1,8 +1,8 @@
 <?php
 include 'config.php';
+$conn = connectDB();
 include 'header.php';
 
-$conn = connectDB();
 
 $item_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 

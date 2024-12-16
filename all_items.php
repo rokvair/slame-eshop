@@ -1,9 +1,9 @@
 <?php
 // Include necessary files and initialize database connection
 include 'config.php';
-include 'header.php';
-
 $conn = connectDB();
+session_start(); // Start the session
+include 'header.php';
 
 // Handle search term
 $search_term = '';

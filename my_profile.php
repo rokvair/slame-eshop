@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config.php';
+$conn = connectDB();
 include 'header.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -8,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$conn = connectDB();
 $message = "";
 
 // Fetch user details

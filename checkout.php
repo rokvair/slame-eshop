@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config.php';
+$conn = connectDB();
 include 'header.php';
 require('fpdf/fpdf.php');
 
@@ -9,7 +10,6 @@ $user_id = $_SESSION['user_id'] ?? 1;
 $user_email = "";
 
 // Connect to the database
-$conn = connectDB();
 
 // Fetch the email for the logged-in user
 $sql_email = "SELECT El_pastas FROM naudotojas WHERE id = ?";
