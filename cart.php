@@ -88,6 +88,7 @@ if ($items_result->num_rows > 0) {
     while ($item = $items_result->fetch_assoc()) {
         // Apply discount to the item price
         $discounted_price = $item['Kaina'] - ($item['Kaina'] * $item['Nuolaida'] / 100);
+        $discounted_price = number_format($discounted_price, 2);
         $total = $discounted_price * $item['Kiekis'];
         $grand_total += $total;
 

@@ -64,7 +64,7 @@ echo "<p>Naudotojas: {$user_name} {$user_surname} ({$user_email})</p>";
 
 // Display status change form
 echo "<form method='POST'>
-        <label for='new_status'>Keisti užsakymo statusą:</label>
+        <label for='new_status'>Keisti užsakymo būseną:</label>
         <select name='new_status' id='new_status'>
             <option value='Laukiantis patvirtinimo'" . ($order_status === 'Laukiantis patvirtinimo' ? ' selected' : '') . ">Laukiantis patvirtinimo</option>
             <option value='Patvirtintas'" . ($order_status === 'Patvirtintas' ? ' selected' : '') . ">Patvirtintas</option>
