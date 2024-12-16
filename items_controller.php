@@ -36,7 +36,7 @@ $items_count= $result->num_rows;
         // Check for success or error message in URL
         if (isset($_GET['status'])) {
             if ($_GET['status'] == 'success') {
-                echo "<p style='color: green;'>Prekė sėkmingai atnaujinta: " . htmlspecialchars($_GET['item']) . ".</p>";
+                echo "<p style='color: green;'>Pakeitimai atlikti sėkmingai.</p>";
             } elseif ($_GET['status'] == 'error') {
                 echo "<p style='color: red;'>Įvyko klaida atnaujinant prekę. Bandykite dar kartą.</p>";
             }

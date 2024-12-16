@@ -1,6 +1,7 @@
 <?php
 include 'config.php';
 $conn = connectDB();
+session_start();
 include 'header.php';
 
 

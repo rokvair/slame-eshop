@@ -6,7 +6,7 @@ include 'functions.php';
 include 'header.php';
 
 $item_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
+$user_id = $_SESSION['user_id'] ?? 0; // Assuming `user_id` is set during login
 // Fetch item details
 $sql = "SELECT * FROM Preke WHERE id = ?";
 $stmt = $conn->prepare($sql);
@@ -43,17 +43,11 @@ if ($result->num_rows > 0) {
     echo "<p><b>Kiekis sandėlyje: </b>{$item['Kiekis_sandelyje']}</p>";
 
     $out_of_stock = $item['Kiekis_sandelyje'] <= 0;
-    $user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
-
     if ($out_of_stock) {
         echo "<p><strong>Prekių nėra sandėlyje</strong></p>";
-    }
-    else if($user_id == null)
-    {
-        echo  "<p><strong>Prašome prisijungti.<p><strong>";
-    }
-     else {
-
+    }else if ($user_id === 0) {
+        echo "<p>Norėdami pridėti prekes į krepšelį, turite <a href='login.php'>prisijungti</a>.</p>";
+    }else {
     // Add to Cart and Buy Now buttons
         echo "<form method='POST' action='cart.php'>";
         echo "<input type='hidden' name='item_id' value='{$item['id']}'>";
@@ -95,13 +89,10 @@ if ($comments->num_rows > 0) {
         echo "</div>";
     }
 } else {
-    echo "<p>Komentarų dar nėra. Būk pirmasis jį palikęs!</p>";
+    echo "<p>Atsiliepimų dar nėra. Būk pirmasis jį palikęs!</p>";
 }
 
-
-
-// Check if the user is logged in
-$user_id = $_SESSION['user_id']; // Assuming `user_id` is set during login
+// Check if the user is logged i
 
 if ($user_id !== 0) {
     // Verify if the user has purchased the item
