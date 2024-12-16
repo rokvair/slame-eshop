@@ -33,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Update the user's status in pirkejas table
     $update_sql = "UPDATE pirkejas SET Paskyros_busena = '$newStatus' WHERE id = $userId";
     if ($conn->query($update_sql) === TRUE) {
-        $message = "User status updated successfully.";
+        $message = "Naudotojo statusas pakeistas sėkmingai.";
     } else {
-        $message = "Error updating status: " . $conn->error;
+        $message = "Klaida atnaujinant statusą." . $conn->error;
     }
 }
 
