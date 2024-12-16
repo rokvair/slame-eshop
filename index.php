@@ -8,7 +8,7 @@ include 'config.php';
 $conn = connectDB();
 session_start(); // Start the session
 include 'header.php';
-include 'config.php';
+
 ?>
 
 <!DOCTYPE html>
