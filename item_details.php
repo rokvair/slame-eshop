@@ -77,44 +77,39 @@ if ($comments->num_rows > 0) {
     echo "<p>Komentarų dar nėra. Būk pirmasis jį palikęs!</p>";
 }
 
-// Check if the user has purchased the item
-/*session_start();
-$user_id = $_SESSION['user_id'] ?? 0; // Replace with actual user session logic
+session_start(); // Start the session
 
-$sql = "SELECT * 
-        FROM Uzsakymo_preke up
-        INNER JOIN Uzsakymas u ON up.fk_Uzsakymas = u.id
-        WHERE u.fk_Naudotojas = ? AND up.fk_Preke = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $user_id, $item_id);
-$stmt->execute();
-$purchased = $stmt->get_result()->num_rows > 0;*/
+// Check if the user is logged in
+$user_id = $_SESSION['user_id'] ?? 0; // Assuming `user_id` is set during login
 
-// Display comment form if the user has purchased the item
-/*if ($purchased) {
-    echo "<h3>Leave a Comment</h3>";
-    echo "<form method='POST' action='submit_comment.php'>";
-    echo "<textarea name='comment_text' placeholder='Your comment'></textarea><br>";
-    echo "<input type='number' name='rating' min='1' max='5' placeholder='Rating (1-5)' required><br>";
-    echo "<input type='hidden' name='item_id' value='$item_id'>";
-    echo "<button type='submit'>Submit Comment</button>";
-    echo "</form>";
+if ($user_id !== 0) {
+    // Verify if the user has purchased the item
+    $sql = "SELECT 1 
+            FROM Uzsakymo_preke up
+            INNER JOIN Uzsakymas u ON up.fk_Uzsakymas = u.id
+            WHERE u.fk_Naudotojas = ? AND up.fk_Preke = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $user_id, $item_id);
+    $stmt->execute();
+    $purchased = $stmt->get_result()->num_rows > 0;
+
+    if ($purchased) {
+        // Allow the user to leave a comment
+        echo "<h3>Palikite atsiliepimą</h3>";
+        echo "<form method='POST' action='submit_comment.php'>";
+        echo "<textarea name='comment_text' placeholder='Jūsų atsiliepimas' required></textarea><br>";
+        echo "<input type='number' name='rating' min='1' max='5' placeholder='Įvertinimas (1-5)' required><br>";
+        echo "<input type='hidden' name='item_id' value='$item_id'>";
+        echo "<button type='submit'>Pateikti Atsiliepimą</button>";
+        echo "</form>";
+    } else {
+        // If the user has not purchased the item, show a message
+        echo "<p>Norėdami palikti atsiliepimą, pirmiausia turite įsigyti šią prekę.</p>";
+    }
 } else {
-    echo "<p>You need to purchase this item to leave a comment.</p>";
-}*/
-//session_start();
-//$user_id = $_SESSION['user_id'] ?? 0;
-//if ($user_id !== 0) {
-    echo "<h3>Palikite atsiliepimą</h3>";
-    echo "<form method='POST' action='submit_comment.php'>";
-    echo "<textarea name='comment_text' placeholder='Jūsų atsiliepimas' required></textarea><br>";
-    echo "<input type='number' name='rating' min='1' max='5' placeholder='Įvertinimas (1-5)' required><br>";
-    echo "<input type='hidden' name='item_id' value='$item_id'>";
-    echo "<button type='submit'>Pateikti Atsiliepimą</button>";
-    echo "</form>";
-//} else {
-    //echo "<p>Norėdami palikti atsiliepimą, turite prisijungti.</p>";
-//}
+    // If the user is not logged in, show a message
+    echo "<p>Norėdami palikti atsiliepimą, turite <a href='login.php'>prisijungti</a>.</p>";
+}
 
 echo "</div>";
 $conn->close();
