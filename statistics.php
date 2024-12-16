@@ -219,17 +219,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="page-container">
-        <header>
-            <h1>Statistika</h1>
-        </header>
 
         <main class="content-wrapper">
-			<br>
-            <h1>Statistika</h1>
-			<br>
+
             <section class="statistics">
-			<button class="btn btn-success" data-toggle="modal" data-target="#gen-modal">Generuoti statistiką</button>
-			<br><br>
+			<?php if ($role === 'Vadybininkas'): ?>
+				<br>
+				<h1>Statistika</h1>
+				<br>
+				<button class="btn btn-success" data-toggle="modal" data-target="#gen-modal">Generuoti statistiką</button>
+				<br><br>
+            <?php endif; ?>
+			
 			<table class="table">
 				<thead>
 					<tr>

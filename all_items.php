@@ -53,9 +53,6 @@ $items_count= $result->num_rows;
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <h1>Visos prekės</h1>
-    </header>
     <h3>Paieška</h3>
      <!-- Search Bar -->
     <form method="GET" action="" class="search-bar">
