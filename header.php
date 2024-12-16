@@ -21,9 +21,9 @@ $role = isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : null;
 
                 <!-- Greeting based on login status -->
                 <?php if ($user_id): ?>
-                    <p class="ml-3 font-weight-bold">Sveiki, <?php echo $username; ?>!</p>
+                    <p class="ml-3 font-weight-bold" style="margin: 0px">Sveiki, <?php echo $username; ?>!</p>
                 <?php else: ?>
-                    <p class="ml-3 font-weight-bold">Sveiki, svečias!</p>
+                    <p class="ml-3 font-weight-bold" style="margin: 0px">Sveiki, svečias!</p>
                 <?php endif; ?>
 
                 <!-- Navbar links -->
@@ -35,9 +35,10 @@ $role = isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : null;
                     <li><a href="login.php" class="btn-login">Prisijungti</a></li>
                     <li><a href="register.php" class="btn-signup">Registruotis</a></li>
                 <?php else: ?>
+                    <li><a href="my_profile.php">Mano profilis</a></li>
+                    
                     <!-- Links for all logged-in users -->
                     <li><a href="cart.php">Krepšelis</a></li>
-                    <li><a href="my_profile.php">Mano profilis</a></li>
                     <li><a href="my_orders.php">Mano Užsakymai</a></li>
 
                     <!-- Links for admins -->
@@ -45,6 +46,7 @@ $role = isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : null;
                         <li><a href="admin_dashboard.php">Naudotojų valdymas</a></li>
                         <li><a href="admin_orders.php">Visi užsakymai</a></li>
                         <li><a href="items_controller.php">Prekių valdymas</a></li>
+                        <li><a href="statistics.php">Statistika</a></li>
                     <?php endif; ?>
 
                     <!-- Links for managers -->
