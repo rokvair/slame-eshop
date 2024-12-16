@@ -76,7 +76,7 @@ try {
         $product_id = $item['fk_Preke'];
 
         // Update the stock quantity in the 'preke' table
-        $update_stock_sql = "UPDATE preke SET Kiekis = Kiekis - ? WHERE id = ?";
+        $update_stock_sql = "UPDATE preke SET Kiekis_sandelyje = Kiekis_sandelyje - ? WHERE id = ?";
         $stmt_stock = $conn->prepare($update_stock_sql);
         $stmt_stock->bind_param("ii", $new_stock, $product_id);
         $stmt_stock->execute();
