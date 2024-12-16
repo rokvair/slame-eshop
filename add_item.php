@@ -1,6 +1,7 @@
 <?php
 // Include necessary files and initialize database connection
 include 'config.php';
+session_start();
 $conn = connectDB();
 include 'header.php';
 
