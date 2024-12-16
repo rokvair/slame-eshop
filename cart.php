@@ -98,12 +98,12 @@ if ($items_result->num_rows > 0) {
                 <td>{$discounted_price} €</td>
                 <td>{$item['Kiekis']}</td>
                 <td>{$total} €</td>
-                <td><a href='cart.php?remove={$item['product_id']}'>Remove</a></td>
+                <td><a href='cart.php?remove={$item['product_id']}'>Pašalinti</a></td>
               </tr>";
     }
     echo "<tr><td colspan='5' style='text-align:right;'>Grand Total:</td><td>{$grand_total} €</td></tr>";
     echo "</table>";
-    echo "<p><a href='checkout.php'>Proceed to Checkout</a></p>";
+    echo "<p><a href='checkout.php'>Eiti į apmokėjimą</a></p>";
 } else {
     echo "<p>Jūsų krepšelis yra tuščias</p>";
 }
