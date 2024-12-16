@@ -7,6 +7,13 @@ include 'config.php';  // Database connection
 $user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
 $conn = connectDB();
 
+
+if($user_id == null)
+{
+    echo("OHnononoononono");
+    header("Location: login.php");
+    
+}
 // Check if there is already a cart for the user with status 'Laukiantis patvirtinimo'
 $sql = "SELECT id FROM uzsakymas WHERE fk_Naudotojas = ? AND Statusas = 'Laukiantis patvirtinimo' LIMIT 1";
 $stmt = $conn->prepare($sql);
