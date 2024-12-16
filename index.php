@@ -34,7 +34,7 @@ include 'header.php';
         <div class="container">
             <h1>Welcome to SlimeShop!</h1>
             <p>Discover the best handcrafted slimes for all ages. Perfectly squishy, stretchy, and fun!</p>
-            <a href="shop.php" class="btn-primary">Shop Now</a>
+            <a href="all_items.php" class="btn-primary">Shop Now</a>
         </div>
     </section>
 
