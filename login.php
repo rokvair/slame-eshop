@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = hash('sha256', $password);
 
     // Query to check username and hashed password
-    $sql = "SELECT id, Slapyvardis FROM naudotojas WHERE Slapyvardis = ? AND Slaptazodis = ?";
+    $sql = "SELECT id, Slapyvardis, `Role` FROM naudotojas WHERE Slapyvardis = ? AND Slaptazodis = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $hashed_password);
     $stmt->execute();
@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Set user ID and username in session
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['Slapyvardis'];
+        $_SESSION['role'] = $user['Role'];
 
         // Redirect to the homepage or another appropriate page
         header("Location: index.php");
