@@ -6,6 +6,8 @@ include 'header.php';
 $conn = connectDB();
 $item_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+$user_id = $_SESSION['user_id'] ;  // Simulated user ID, replace with actual logic
+
 // Fetch item details
 $sql = "SELECT * FROM Preke WHERE id = ?";
 $stmt = $conn->prepare($sql);
@@ -45,7 +47,12 @@ if ($result->num_rows > 0) {
 
     if ($out_of_stock) {
         echo "<p><strong>Prekių nėra sandėlyje</strong></p>";
-    } else {
+    }
+    else if($user_id == null)
+    {
+        echo  "<p><strong>Prašome prisijungti.<p><strong>";
+    }
+     else {
 
     // Add to Cart and Buy Now buttons
         echo "<form method='POST' action='cart.php'>";
@@ -94,7 +101,7 @@ if ($comments->num_rows > 0) {
 session_start(); // Start the session
 
 // Check if the user is logged in
-$user_id = $_SESSION['user_id'] ?? 0; // Assuming `user_id` is set during login
+$user_id = $_SESSION['user_id']; // Assuming `user_id` is set during login
 
 if ($user_id !== 0) {
     // Verify if the user has purchased the item

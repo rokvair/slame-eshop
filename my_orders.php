@@ -4,7 +4,7 @@ include 'header.php';  // Including the header
 include 'config.php';  // Database connection
 
 // Assuming user_id is stored in session
-$user_id = $_SESSION['user_id'] ?? 1;  // Replace with actual user authentication
+$user_id = $_SESSION['user_id'];  // Replace with actual user authentication
 $conn = connectDB();
 
 // Fetch user's purchase history
