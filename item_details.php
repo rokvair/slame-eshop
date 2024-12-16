@@ -32,7 +32,7 @@ echo "<h3>Atsiliepimai</h3>";
 
 $sql = "SELECT a.Atsiliepimas, a.Ivertinimas, u.Slapyvardis 
         FROM Atsiliepimas a 
-        INNER JOIN Naudotojas u ON a.fk_Naudotojas = u.id 
+        INNER JOIN Naudotojas u ON a.id = u.id 
         WHERE a.fk_Preke = ? 
         ORDER BY a.Data DESC";
 $stmt = $conn->prepare($sql);
