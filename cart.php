@@ -65,6 +65,15 @@ if (isset($_GET['remove'])) {
     $stmt = $conn->prepare($delete_item);
     $stmt->bind_param("ii", $order_id, $remove_item_id);
     $stmt->execute();
+
+    // Redirect to cart page with success message
+    header("Location: cart.php?removed=true");
+    exit;
+}
+
+// Check for the success message
+if (isset($_GET['removed']) && $_GET['removed'] == 'true') {
+    echo "<p style='color: green;'>Prekė buvo sėkmingai pašalinta iš krepšelio.</p>";
 }
 
 // Display the cart items
@@ -99,7 +108,7 @@ if ($items_result->num_rows > 0) {
                 <td>{$discounted_price} €</td>
                 <td>{$item['Kiekis']}</td>
                 <td>{$total} €</td>
-                <td><a href='cart.php?remove={$item['product_id']}'>Pašalinti</a></td>
+                <td><a href='cart.php?remove={$item['product_id']}' onclick='return confirm(\"Ar tikrai norite pašalinti šią prekę iš krepšelio?\")'>Pašalinti</a></td>
               </tr>";
     }
     echo "<tr><td colspan='5' style='text-align:right;'>Grand Total:</td><td>{$grand_total} €</td></tr>";
