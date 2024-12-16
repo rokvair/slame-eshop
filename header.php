@@ -14,6 +14,7 @@
             <ul class="nav-links">
                 <li><a href="index.php">Namai</a></li>
                 <li><a href="all_items.php">Prekės</a></li>
+                <li><a href="cart.php">Krepšelis</a></li>
                 <li><a href="login.html" class="btn-login">Login</a></li>
                 <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
                 </li>

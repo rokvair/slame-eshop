@@ -23,13 +23,24 @@ if ($result->num_rows > 0) {
     echo "<p>Tekstūra: {$item['Tekstura']}</p>";
     echo "<p>Kvapas: {$item['Kvapas']}</p>";
     echo "<p>Kiekis sandėlyje: {$item['Kiekis_sandelyje']}</p>";
+
+    $out_of_stock = $item['Kiekis_sandelyje'] <= 0;
+
+    if ($out_of_stock) {
+        echo "<p><strong>Prekių nėra sandėlyje</strong></p>";
+    } else {
+
     // Add to Cart and Buy Now buttons
 echo "<form method='POST' action='cart.php'>";
 echo "<input type='hidden' name='item_id' value='{$item['id']}'>";
 echo "<input type='hidden' name='Pavadinimas' value='{$item['Pavadinimas']}'>";
 echo "<input type='hidden' name='Kaina' value='{$item['Kaina']}'>";
-echo "<button type='submit' name='add_to_cart'>Add to Cart</button>";
-echo "<button type='submit' name='buy_now'>Buy Now</button>";
+
+
+echo "<button type='submit' name='add_to_cart' " . ($out_of_stock ? "disabled" : "") . ">Add to Cart</button>";
+
+
+    }
 echo "</form>";
 } else {
 echo "Tokios prekės nėra.";
