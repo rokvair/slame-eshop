@@ -65,12 +65,21 @@ if (isset($_GET['remove'])) {
     $stmt = $conn->prepare($delete_item);
     $stmt->bind_param("ii", $order_id, $remove_item_id);
     $stmt->execute();
+
+    // Redirect to cart page with success message
+    header("Location: cart.php?removed=true");
+    exit;
+}
+
+// Check for the success message
+if (isset($_GET['removed']) && $_GET['removed'] == 'true') {
+    echo "<p style='color: green;'>Prekė buvo sėkmingai pašalinta iš krepšelio.</p>";
 }
 
 // Display the cart items
-echo "<h1>Your Shopping Cart</h1>";
+echo "<h1>Jūsų krepšelis</h1>";
 echo "<table border='1'>
-      <tr><th>Item</th><th>Price</th><th>Discount</th><th>Discounted Price</th><th>Quantity</th><th>Total</th><th>Action</th></tr>";
+      <tr><th>Prekė</th><th>Kaina</th><th>Nuolaida</th><th>Kaina po nuolaidos</th><th>Kiekis</th><th>Iš viso</th><th>Veiksmas</th></tr>";
 
 $grand_total = 0;
 
@@ -88,6 +97,7 @@ if ($items_result->num_rows > 0) {
     while ($item = $items_result->fetch_assoc()) {
         // Apply discount to the item price
         $discounted_price = $item['Kaina'] - ($item['Kaina'] * $item['Nuolaida'] / 100);
+        $discounted_price = number_format($discounted_price, 2);
         $total = $discounted_price * $item['Kiekis'];
         $grand_total += $total;
 
@@ -98,14 +108,14 @@ if ($items_result->num_rows > 0) {
                 <td>{$discounted_price} €</td>
                 <td>{$item['Kiekis']}</td>
                 <td>{$total} €</td>
-                <td><a href='cart.php?remove={$item['product_id']}'>Remove</a></td>
+                <td><a href='cart.php?remove={$item['product_id']}' onclick='return confirm(\"Ar tikrai norite pašalinti šią prekę iš krepšelio?\")'>Pašalinti</a></td>
               </tr>";
     }
     echo "<tr><td colspan='5' style='text-align:right;'>Grand Total:</td><td>{$grand_total} €</td></tr>";
     echo "</table>";
-    echo "<p><a href='checkout.php'>Proceed to Checkout</a></p>";
+    echo "<p><a href='checkout.php'>Eiti į apmokėjimą</a></p>";
 } else {
-    echo "<p>Your cart is empty!</p>";
+    echo "<p>Jūsų krepšelis yra tuščias</p>";
 }
 
 $conn->close();
