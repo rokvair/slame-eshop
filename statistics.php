@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$lastInsertId = $conn->insert_id;
 
 		$query = $conn->prepare("INSERT INTO skaicius(Reiksme, fk_Statistika) 
-					VALUES (?, ?)");
+					VALUES (ROUND(?,2), ?)");
 		
 		$query->execute([$row['AVG(Suma)'], $lastInsertId]);
 	}
