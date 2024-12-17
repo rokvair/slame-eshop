@@ -19,9 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $conn->real_escape_string($_POST['password']);
     $confirm_password = $conn->real_escape_string($_POST['confirm_password']);
 
+    // Address details
+    $miestas = $conn->real_escape_string($_POST['miestas']);
+    $gatve = $conn->real_escape_string($_POST['gatve']);
+    $namo_nr = $conn->real_escape_string($_POST['namo_nr']);
+    $buto_nr = $conn->real_escape_string($_POST['buto_nr']);
+    $pasto_kodas = $conn->real_escape_string($_POST['pasto_kodas']);
+
     // Check if passwords match
     if ($password !== $confirm_password) {
-        $message = "Passwords do not match!";
+        $message = "Slaptažodžiai nesutampa!";
     } else {
         // Hash the password
         $hashed_password = hash('sha256', $password);
@@ -31,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check_result = $conn->query($check_sql);
 
         if ($check_result && $check_result->num_rows > 0) {
-            $message = "Username or Email already exists!";
+            $message = "Slapyvardis arba el. paštas jau užregistruotas!";
         } else {
             // Insert the user into naudotojas table
             $sql = "INSERT INTO naudotojas (Vardas, Pavarde, Tel_nr, El_pastas, Slaptazodis, Registracijos_data, Gimimo_data, Slapyvardis, `Role`)
@@ -44,15 +51,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Insert into the user status table with default status 'Aktyvus'
                 $status_sql = "INSERT INTO pirkejas (id, Paskyros_busena) VALUES ('$user_id', 'Aktyvus')";
 
-                if ($conn->query($status_sql) === TRUE) {
-                    $message = "Registration successful! You can now log in.";
+                // Insert address into the adresas table
+                $address_sql = "INSERT INTO adresas (Miestas, Gatve, Namo_nr, Buto_nr, Pasto_kodas, fk_Naudotojas)
+                                VALUES ('$miestas', '$gatve', '$namo_nr', '$buto_nr', '$pasto_kodas', '$user_id')";
+
+                if ($conn->query($status_sql) === TRUE && $conn->query($address_sql) === TRUE) {
+                    $message = "Registracija sėkminga.";
                     header("Location: login.php");
                     exit();
                 } else {
-                    $message = "Error updating user status: " . $conn->error;
+                    $message = "Klaida atnaujinant duomenis: " . $conn->error;
                 }
             } else {
-                $message = "Error: " . $sql . "<br>" . $conn->error;
+                $message = "Klaida: " . $sql . "<br>" . $conn->error;
             }
         }
     }
@@ -75,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Registruotis</h1>
         </div>
         <form method="POST" action="">
+            <!-- User Details -->
             <div class="mb-3">
                 <label for="vardas" class="form-label">Vardas</label>
                 <input type="text" id="vardas" name="vardas" class="form-control" required>
@@ -107,7 +119,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="confirm_password" class="form-label">Pakartokite slaptažodį</label>
                 <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Registruotis</button>
+
+            <!-- Address Details -->
+            <h5>Adresas</h5>
+            <div class="mb-3">
+                <label for="miestas" class="form-label">Miestas</label>
+                <input type="text" id="miestas" name="miestas" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="gatve" class="form-label">Gatvė</label>
+                <input type="text" id="gatve" name="gatve" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="namo_nr" class="form-label">Namo Nr.</label>
+                <input type="number" id="namo_nr" name="namo_nr" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="buto_nr" class="form-label">Buto Nr.</label>
+                <input type="number" id="buto_nr" name="buto_nr" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="pasto_kodas" class="form-label">Pašto kodas</label>
+                <input type="text" id="pasto_kodas" name="pasto_kodas" class="form-control" required>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" color="green">Registruotis</button>
             <?php if ($message): ?>
                 <p class="text-danger mt-3"><?php echo htmlspecialchars($message); ?></p>
             <?php endif; ?>
