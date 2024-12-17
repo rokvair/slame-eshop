@@ -5,6 +5,19 @@ session_start(); // Start the session
 include 'functions.php';
 include 'header.php';
 
+<script>
+    function addToCartSuccess() {
+        alert('Prekė sėkmingai pridėta į krepšelį!');
+        // Optionally, you can display a more styled message in the DOM instead of an alert
+        const message = document.createElement('p');
+        message.textContent = 'Prekė sėkmingai pridėta į krepšelį!';
+        message.style.color = 'green';
+        message.style.fontWeight = 'bold';
+        document.querySelector('.item-details-container').appendChild(message);
+    }
+</script>
+
+
 $item_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $user_id = $_SESSION['user_id'] ?? 0; // Assuming `user_id` is set during login
 // Fetch item details
@@ -49,13 +62,12 @@ if ($result->num_rows > 0) {
         echo "<p>Norėdami pridėti prekes į krepšelį, turite <a href='login.php'>prisijungti</a>.</p>";
     }else {
     // Add to Cart and Buy Now buttons
-        echo "<form method='POST' action='cart.php'>";
-        echo "<input type='hidden' name='item_id' value='{$item['id']}'>";
-        echo "<input type='hidden' name='Pavadinimas' value='{$item['Pavadinimas']}'>";
-        echo "<input type='hidden' name='Kaina' value='{$item['Kaina']}'>";
-
-        echo "<button type='submit' name='add_to_cart' " . ($out_of_stock ? "disabled" : "") . ">Pridėti į krepšelį</button>";
-        echo "</form>";
+    echo "<form onsubmit='return false;'>"; // Prevent the default form submission
+    echo "<input type='hidden' name='item_id' value='{$item['id']}'>";
+    echo "<input type='hidden' name='Pavadinimas' value='{$item['Pavadinimas']}'>";
+    echo "<input type='hidden' name='Kaina' value='{$item['Kaina']}'>";
+    echo "<button type='button' onclick='addToCartSuccess()' " . ($out_of_stock ? "disabled" : "") . ">Pridėti į krepšelį</button>";
+    echo "</form>";
     }
     echo "</div>";
 }
