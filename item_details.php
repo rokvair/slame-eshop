@@ -123,7 +123,7 @@ if ($user_id !== 0) {
     // If the user is not logged in, show a message
     echo "<p>Norėdami palikti atsiliepimą, turite <a href='login.php'>prisijungti</a>.</p>";
 }
-
+//
 echo "</div>";
 $conn->close();
 ?>
