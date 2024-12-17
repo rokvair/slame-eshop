@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			die("Query failed: " . $conn->error);
 		}
 		$row = $result->fetch_assoc();
+		if ($row['Suma']== null) $row['Suma']= 0;
 		
 		$query = $conn->prepare("INSERT INTO statistika(Data_nuo, Data_iki, Sukurimo_data, Tipas) 
 					VALUES (?, ?, ?, ?)");
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$lastInsertId = $conn->insert_id;
 
 		$query = $conn->prepare("INSERT INTO skaicius(Reiksme, fk_Statistika) 
-					VALUES (?, ?)");
+					VALUES (ROUND(?, 2), ?)");
 		
 		$query->execute([$row['Suma'], $lastInsertId]);
 	}
@@ -98,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			die("Query failed: " . $conn->error);
 		}
 		$row = $result->fetch_assoc();
+		if ($row['Suma']== null) $row['Suma']= 0;
 		
 		$query = $conn->prepare("INSERT INTO statistika(Data_nuo, Data_iki, Sukurimo_data, Tipas) 
 					VALUES (?, ?, ?, ?)");
@@ -240,6 +242,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<tbody>
 					<?php
 					$statistics = getStatisticsList();
+					if ($statistics == null) echo '<h2>Sukurtų statistikų nėra</h2>';
+					else
 					foreach ($statistics as $s) {
 						echo '<tr>';
 						echo '<td>' . $s['Tipas'] . ' (' . $s['Data_nuo'] . ' - ' . $s['Data_iki'] . ')</td>';
