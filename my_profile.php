@@ -25,7 +25,7 @@ if ($result && $row = $result->fetch_assoc()) {
     $slapyvardis = $row['Slapyvardis'];
     $gimimo_data = $row['Gimimo_data'];
 } else {
-    $message = "User not found.";
+    $message = "Vartotojas nerastas.";
 }
 
 // Update user data
@@ -47,11 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    WHERE id = '$id'";
 
     if ($conn->query($update_sql) === TRUE) {
-        $message = "Profile updated successfully!";
-        $_SESSION['user_id'] = $new_id; // Update session id if it changes
         header("Refresh:0");
+        $message = "Profilis sėkmingai atnaujintas!";
     } else {
-        $message = "Error updating profile: " . $conn->error;
+        $message = "Klaida atnaujinant profilį: " . $conn->error;
     }
 }
 

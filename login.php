@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     } else {
         // Display error message for invalid login
-        $error = "Invalid username or password!";
+        $error = "Neteisingas slapyvardis arba slaptažodis!";
     }
 
     $conn->close();
