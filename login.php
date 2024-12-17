@@ -16,8 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hash the input password (use the same hashing algorithm as during registration)
     $hashed_password = hash('sha256', $password);
 
-    // Query to check username and hashed password
-    $sql = "SELECT id, Slapyvardis, `Role` FROM naudotojas WHERE Slapyvardis = ? AND Slaptazodis = ?";
+    // Query to check username, hashed password, and status from pirkejas
+    $sql = "
+        SELECT n.id, n.Slapyvardis, n.`Role`, p.Paskyros_busena
+        FROM naudotojas n
+        LEFT JOIN pirkejas p ON n.id = p.id
+        WHERE n.Slapyvardis = ? AND n.Slaptazodis = ?
+    ";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $hashed_password);
     $stmt->execute();
@@ -27,19 +32,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Fetch user data
         $user = $result->fetch_assoc();
 
-        // Set user ID and username in session
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['Slapyvardis'];
-        $_SESSION['role'] = $user['Role'];
+        // Check if user is blocked
+        if ($user['Paskyros_busena'] === 'Užblokuotas') {
+            $error = "Jūsų paskyra yra užblokuota. Susisiekite su administratoriumi.";
+        } else {
+            // Set user ID and username in session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['Slapyvardis'];
+            $_SESSION['role'] = $user['Role'];
 
-        // Redirect to the homepage or another appropriate page
-        header("Location: index.php");
-        exit();
+            // Redirect to the homepage or another appropriate page
+            header("Location: index.php");
+            exit();
+        }
     } else {
         // Display error message for invalid login
         $error = "Neteisingas slapyvardis arba slaptažodis!";
     }
 
+    $stmt->close();
     $conn->close();
 }
 ?>
