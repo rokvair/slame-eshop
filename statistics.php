@@ -242,7 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<tbody>
 					<?php
 					$statistics = getStatisticsList();
-					if ($statistics == null) echo '<h2>Sukurtų statistikų nėra</h2>';
+					if ($statistics->num_rows == 0) echo '<h2>Sukurtų statistikų nėra</h2>';
 					else
 					foreach ($statistics as $s) {
 						echo '<tr>';

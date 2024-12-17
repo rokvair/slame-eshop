@@ -66,7 +66,6 @@ echo "<p>Naudotojas: {$user_name} {$user_surname} ({$user_email})</p>";
 echo "<form method='POST'>
         <label for='new_status'>Keisti užsakymo būseną:</label>
         <select name='new_status' id='new_status'>
-            <option value='Laukiantis patvirtinimo'" . ($order_status === 'Laukiantis patvirtinimo' ? ' selected' : '') . ">Laukiantis patvirtinimo</option>
             <option value='Patvirtintas'" . ($order_status === 'Patvirtintas' ? ' selected' : '') . ">Patvirtintas</option>
             <option value='Išsiųstas'" . ($order_status === 'Issiustas' ? ' selected' : '') . ">Išsiųstas</option>
             <option value='Atmestas'" . ($order_status === 'Atmestas' ? ' selected' : '') . ">Atmestas</option>
