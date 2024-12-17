@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_id = $row['id'];
 
         // Generate the reset link
-        $reset_link = "http://localhost/slame/slame-eshop/password_reset.php";
+        $reset_link = "http://localhost/slame-eshop/slame-eshop/password_reset.php";
 
         // Send the email using PHPMailer
         $mail = new PHPMailer(true);
