@@ -1,13 +1,13 @@
 <?php
 session_start();
-include 'config.php';
+include('config.php');
 include 'header.php';
 
-	$conn = connectDB();
+$conn = connectDB();
 
-    if (!$conn) {
-        die("Database connection is not initialized.");
-    }
+if (!$conn) {
+    die("Database connection is not initialized.");
+}
 
 function getStatisticsList() {
 	global $conn;
@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			die("Query failed: " . $conn->error);
 		}
 		$row = $result->fetch_assoc();
+		if ($row['Suma']== null) $row['Suma']= 0;
 		
 		$query = $conn->prepare("INSERT INTO statistika(Data_nuo, Data_iki, Sukurimo_data, Tipas) 
 					VALUES (?, ?, ?, ?)");
@@ -97,7 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if (!$result) {
 			die("Query failed: " . $conn->error);
 		}
+		
 		$row = $result->fetch_assoc();
+		if ($row['Suma']== null) $row['Suma']= 0;
 		
 		$query = $conn->prepare("INSERT INTO statistika(Data_nuo, Data_iki, Sukurimo_data, Tipas) 
 					VALUES (?, ?, ?, ?)");
@@ -107,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$lastInsertId = $conn->insert_id;
 
 		$query = $conn->prepare("INSERT INTO skaicius(Reiksme, fk_Statistika) 
-					VALUES (ROUND(?,2), ?)");
+					VALUES (ROUND(?, 2), ?)");
 		
 		$query->execute([$row['AVG(Suma)'], $lastInsertId]);
 	}
@@ -145,6 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistika - Slime parduotuvė</title>
+    <link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -240,6 +245,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				<tbody>
 					<?php
 					$statistics = getStatisticsList();
+					if ($statistics == null) echo '<h2>Sukurtų statistikų nėra</h2>';
+					else 
 					foreach ($statistics as $s) {
 						echo '<tr>';
 						echo '<td>' . $s['Tipas'] . ' (' . $s['Data_nuo'] . ' - ' . $s['Data_iki'] . ')</td>';
@@ -296,6 +303,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			</div>
 
         </main>
+
+        <footer>
+            <p>© 2024 Slime E-Shop. imagine slame loolololololol.</p>
+            <p>Follow us on:
+                <a href="#">Instagram</a> | 
+                <a href="#">Facebook</a> | 
+                <a href="#">Twitter</a>
+            </p>
+        </footer>
     </div>
 </body>
 </html>
