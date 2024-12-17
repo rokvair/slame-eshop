@@ -40,6 +40,7 @@ $role = isset($_SESSION['role']) ? htmlspecialchars($_SESSION['role']) : null;
                     <!-- Links for all logged-in users -->
                     <li><a href="cart.php">Krepšelis</a></li>
                     <li><a href="my_orders.php">Mano Užsakymai</a></li>
+                    <li><a href="password_reset_request.php">Keisti slaptažodį</a></li>
 
                     <!-- Links for admins -->
                     <?php if ($role === 'Administratorius'): ?>
